@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Venda Solar Direct - Thohoyandou | Solar Lights & Power Banks</title>
+<meta name="description" content="Affordable solar products in Thohoyandou, Polokwane, Giyani, Musina. Order on WhatsApp 0769282315.">
+<meta property="og:title" content="Venda Solar Direct">
+<meta property="og:image" content="https://via.placeholder.com/600x400/00c853/ffffff?text=Venda+Solar">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif}
+body{background:#f6f6f6}
+header{background:#00c853;color:white;padding:15px;position:sticky;top:0;z-index:100;display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:bold;font-size:20px}
+.cart{ background:white;color:#00c853;padding:8px 14px;border-radius:20px;font-weight:bold;cursor:pointer}
+.hero{background:#00c853;color:white;text-align:center;padding:30px 15px}
+.hero h1{font-size:28px;margin-bottom:8px}
+.hero p{font-size:15px;opacity:0.95}
+.container{max-width:900px;margin:auto;padding:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(min-width:700px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.card{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.card img{width:100%;height:150px;object-fit:contain;border-radius:8px;background:#fafafa}
+.price{color:#00c853;font-weight:bold;font-size:20px;margin:8px 0}
+.old{color:#999;text-decoration:line-through;font-size:13px}
+.btn{background:#00c853;color:white;border:none;padding:10px;width:100%;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:6px}
+.btn-wa{background:#25D366}
+.badge{background:#ff3d00;color:white;font-size:11px;padding:3px 8px;border-radius:10px;position:absolute;top:8px;left:8px}
+.card-wrap{position:relative}
+.footer{background:#222;color:#aaa;text-align:center;padding:25px;margin-top:30px;font-size:13px}
+.cart-modal{position:fixed;top:0;right:-100%;width:85%;max-width:380px;height:100%;background:white;box-shadow:-4px 0 20px rgba(0,0,0,0.3);transition:0.3s;z-index:200;padding:20px;overflow:auto}
+.cart-modal.open{right:0}
+.cart-item{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:10px 0;font-size:14px}
+.total{font-weight:bold;font-size:20px;margin-top:15px;text-align:right}
+input{width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;margin:8px 0}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">☀️ Venda Solar Direct</div>
+<div class="cart" onclick="openCart()">🛒 <span id="cartCount">0</span></div>
+</header>
+
+<div class="hero">
+<h1>Solar Power for Venda Homes</h1>
+<p>Thohoyandou | Polokwane | Giyani | Musina<br>Cash on Delivery at Thohoyandou Plaza</p>
+<p style="margin-top:10px;background:white;color:#00c853;display:inline-block;padding:6px 14px;border-radius:20px;font-weight:bold;font-size:13px">WhatsApp: 0769282315</p>
+</div>
+
+<div class="container">
+<div class="grid" id="productGrid"></div>
+</div>
+
+<div class="cart-modal" id="cartModal">
+<h2>Your Order 🛒</h2>
+<div id="cartItems" style="margin-top:15px">Empty - add products</div>
+<div class="total" id="cartTotal"></div>
+<h3 style="margin-top:20px">Delivery Details</h3>
+<input id="custName" placeholder="Your Name">
+<input id="custPhone" placeholder="Your WhatsApp Number">
+<input id="custArea" placeholder="Area - e.g. Thohoyandou, Maniini">
+<button class="btn btn-wa" onclick="checkoutWA()">Order on WhatsApp (0769282315)</button>
+<button class="btn" style="background:#ddd;color:#333;margin-top:8px" onclick="closeCart()">Continue Shopping</button>
+<p style="font-size:12px;color:#666;margin-top:15px">We also deliver via Paxi & Courier Guy. Email: iamathinavhuyo@gmail.com</p>
+</div>
+
+<div class="footer">
+<p><b>Venda Solar Direct - Thohoyandou</b><br>WhatsApp: 0769282315 | Email: iamathinavhuyo@gmail.com<br>Delivery: Thohoyandou, Polokwane, Giyani, Musina, Louis Trichardt<br><br>© 2026 Venda Solar Direct - Power for Every Home</p>
+</div>
+
+<script>
+const products = [
+{name:"Solar Bulbs 4-Pack (Warm White)",price:199,old:299,img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400",desc:"8 bulbs, solar charging"},
+{name:"Emergency Bulb with Hook",price:89,old:149,img:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400",desc:"Loadshedding essential"},
+{name:"Camping Lantern Rechargeable",price:249,old:399,img:"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400",desc:"100 hours light"},
+{name:"Power Bank 20000mAh Fast Charge",price:329,old:499,img:"https://images.unsplash.com/photo-1609592806596-4a7c1d0a5d18?w=400",desc:"Charge phone 5x"},
+{name:"Solar Security Light with Camera Dummy",price:379,old:599,img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=400",desc:"Motion sensor + remote"},
+{name:"Solar Street Light 60W",price:599,old:899,img:"https://images.unsplash.com/photo-1497445331123-23068073169f?w=400",desc:"For yard, no wiring"}
+];
+let cart=[];
+function render(){
+let html="";
+products.forEach((p,i)=>{
+html+=`<div class="card-wrap card"><div class="badge">SAVE R${p.old-p.price}</div><img src="${p.img}"><h3 style="font-size:14px;margin:8px 0">${p.name}</h3><p style="font-size:12px;color:#666">${p.desc}</p><div class="old">R${p.old}</div><div class="price">R${p.price}</div><button class="btn" onclick="addToCart(${i})">Add to Cart</button></div>`;
+});
+document.getElementById("productGrid").innerHTML=html;
+}
+function addToCart(i){
+cart.push(products[i]);
+document.getElementById("cartCount").innerText=cart.length;
+openCart();
+renderCart();
+}
+function renderCart(){
+let items=""; let total=0;
+cart.forEach((p,idx)=>{
+total+=p.price;
+items+=`<div class="cart-item"><span>${p.name}</span><span>R${p.price} <a href="#" onclick="removeItem(${idx});return false" style="color:red">x</a></span></div>`;
+});
+document.getElementById("cartItems").innerHTML=items||"Empty";
+document.getElementById("cartTotal").innerText="Total: R"+total+" + R70 Delivery";
+}
+function removeItem(idx){cart.splice(idx,1);document.getElementById("cartCount").innerText=cart.length;renderCart();}
+function openCart(){document.getElementById("cartModal").classList.add("open")}
+function closeCart(){document.getElementById("cartModal").classList.remove("open")}
+function checkoutWA(){
+let name=document.getElementById("custName").value;
+let phone=document.getElementById("custPhone").value;
+let area=document.getElementById("custArea").value;
+if(cart.length==0){alert("Add products first");return;}
+if(!name||!phone){alert("Enter name and phone");return;}
+let total=0; let list="";
+cart.forEach(p=>{total+=p.price; list+=`- ${p.name} R${p.price}%0A`});
+let msg=`*NEW ORDER - Venda Solar Direct*%0AName: ${name}%0APhone: ${phone}%0AArea: ${area}%0A%0A*Products:*%0A${list}%0A*Total Products: R${total}*%0A+ Delivery R70%0A*Grand Total: R${total+70}*%0A%0ADelivery: Cash on Delivery at Thohoyandou Plaza or Paxi`;
+window.open(`https://wa.me/27769282315?text=${msg}`,"_blank");
+}
+render();
+</script>
+</body>
+</html>
